@@ -1,59 +1,73 @@
-import java.util.LinkedList;
+import java.beans.JavaBean;
+import java.util.*
 
-public class LinkedLists {
+public class LinkedLists{
+
     Node head;
-
+    int count = 0;
     static class Node{
         int data;
         Node next;
 
-        Node(int d){
-            data = d;
-            next = null;
+        public Node(int data){
+            this.data = data;
+            this.next = null; 
         }
     }
 
-    public static LinkedLists insert(LinkedLists node, int data)
-    {
-        Node new_node = new Node(data);
+    public static LinkedLists InsertBack(Linkedlists list, int data){
+        Node node_to_insert = new Node(data);
+        node_to_insert.next = null;
 
-        if(node.head == null){
-            node.head = new_node;
+        if(list.head == null){
+            list.head = new_node;
+            list.count += 1;
         }
         else{
-            Node last = node.head;
+            Node last = list.head;
             while(last.next != null){
                 last = last.next;
             }
-            last.next = new_node;
-        }
-
-        return node;
-    }
-
-    public static void printList(LinkedLists node){
-        Node currNode = node.head;
-
-        System.out.print("LinkedList: ");
-
-        while(currNode != null){
-            System.out.print(currNode.data + " ");
-
-            currNode = currNode.next;
+            last.next = node_to_insert;
+            list.count += 1;
         }
     }
 
-    public static void main(String[] args) {
-        LinkedLists list = new LinkedLists();
+    public static LinkedLists InsertFront(Linkedlists list, int data){
+        Node node_to_insert = new Node(data);
+        node_to_insert.next = null;
 
-        list = insert(list, 1);
-        list = insert(list, 2);
-        list = insert(list, 3);
-        list = insert(list, 4);
-        list = insert(list, 5);
+        if(list.head == null){
+            list.head = new_node;
+            list.count += 1;
+        }
+        else{
+            Node temp = list.head;
+            list.head = new_node;
+            new_node.next = temp;
+            Node last = list.head;
+            lists.count += 1;
+        }
+    }
 
-        printList(list);
+    public static LinkedLists InsertAtPos(Linkedlists list, int data, int pos){
+        Node node_to_insert = new Node(data);
+        node_to_insert.next = null;
+
+        if(pos > list.count){
+            System.out.println("Index out of bounds!");
+        }
+        else{
+            Node currNode = list.head; 
+            for(int i = 1; i < pos; i++){
+                currNode = currNode.next;
+            }
+
+        
+        
+        }
+    }
+    public static void main(String[] args){
+        
     }
 }
-
-
