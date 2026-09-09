@@ -1,5 +1,5 @@
 import java.beans.JavaBean;
-import java.util.*
+import java.util.*;
 
 public class LinkedLists{
 
@@ -15,59 +15,80 @@ public class LinkedLists{
         }
     }
 
-    public static LinkedLists InsertBack(Linkedlists list, int data){
+    public void InsertBack(int data){
         Node node_to_insert = new Node(data);
-        node_to_insert.next = null;
 
-        if(list.head == null){
-            list.head = new_node;
-            list.count += 1;
+        if(head == null){
+            head = node_to_insert;
         }
         else{
-            Node last = list.head;
+            Node last = head;
             while(last.next != null){
                 last = last.next;
             }
             last.next = node_to_insert;
-            list.count += 1;
         }
+        count++;
     }
 
-    public static LinkedLists InsertFront(Linkedlists list, int data){
+    public void InsertFront(int data){
         Node node_to_insert = new Node(data);
-        node_to_insert.next = null;
 
-        if(list.head == null){
-            list.head = new_node;
-            list.count += 1;
-        }
-        else{
-            Node temp = list.head;
-            list.head = new_node;
-            new_node.next = temp;
-            Node last = list.head;
-            lists.count += 1;
-        }
+        node_to_insert.next = head;
+        head = node_to_insert;
+
+         count++;
     }
 
-    public static LinkedLists InsertAtPos(Linkedlists list, int data, int pos){
-        Node node_to_insert = new Node(data);
-        node_to_insert.next = null;
-
-        if(pos > list.count){
+    public void InsertAtPos(int data, int pos){
+        if(pos >  count || pos < 0){
             System.out.println("Index out of bounds!");
+            return;
         }
-        else{
-            Node currNode = list.head; 
-            for(int i = 1; i < pos; i++){
-                currNode = currNode.next;
-            }
 
-        
-        
+        Node node_to_insert = new Node(data);
+
+        if(pos == 0){
+            node_to_insert.next =  head;
+            head = node_to_insert;
+            count++;
+            return;
+        }
+
+        Node currNode =  head; 
+
+        for(int i = 1; i < pos; i++){
+            currNode = currNode.next;
+        }
+
+        Node temp = currNode.next;
+        currNode.next = node_to_insert;
+        node_to_insert.next = temp;
+        count++;            
+    }
+
+    public void PrintList(){
+        if( head == null){
+            System.out.println("Linked list is empty!");
+            return;
+        }
+
+        Node currNode =  head;
+        while(currNode != null){
+            System.out.print(currNode.data + " ");
+            currNode = currNode.next;
         }
     }
+
     public static void main(String[] args){
-        
+        LinkedLists list = new LinkedLists();
+
+        list.InsertFront(1);
+        list.InsertBack(5);
+        list.InsertBack(10);
+        list.InsertAtPos(2, 2);
+        list.InsertAtPos(3, 4);
+
+        list.PrintList();
     }
 }
