@@ -21,7 +21,7 @@ public class ExceptionHandling{
             catch(InputMismatchException I){
                 if(retries == max_retries - 1){
                     System.out.println("No more retries, the remaining elements auto-filled with zeros!");
-
+                    break;
                 }
                 System.out.println("your input was not an integer! Please try again!");
                 sc.next();
