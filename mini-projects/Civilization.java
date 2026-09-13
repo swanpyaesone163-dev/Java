@@ -1,5 +1,4 @@
 import java.util.*;
-
 import javax.swing.plaf.synth.Region;
 
 public class Civilization {
@@ -11,7 +10,7 @@ public class Civilization {
         void reflect();
     }
 
-    public static class Regions{
+    public static class CivRegions{
         String regionName;
         double difficulty;
         double foodModifier;
@@ -20,16 +19,16 @@ public class Civilization {
         double metalModifier;
         double populationModifier;
 
-        Regions(String name, double diff, double foodMod, double woodMod, double stoneMod, double metalMod, double populationMod){
-            regionName = name;
-            difficulty = diff;
-            foodModifier = foodMod;
-            woodModifier = woodMod;
-            stoneModifier = stoneMod;
-            metalModifier = metalMod;
-            populationModifier = populationMod;
+        CivRegions(String regionName, double difficulty, double foodModifier, double woodModifier, double stoneModifier, double metalModifier, double populationModifier){
+            this.regionName = regionName;
+            this.difficulty = difficulty;
+            this.foodModifier = foodModifier;
+            this.woodModifier = woodModifier;
+            this.stoneModifier = stoneModifier;
+            this.metalModifier = metalModifier;
+            this.populationModifier = populationModifier;
         }
-        Regions(){
+        CivRegions(){
             regionName = "";
             difficulty = 0;
             foodModifier = 0;
@@ -40,7 +39,7 @@ public class Civilization {
         }
     }
 
-    public static class CivState{
+    public static class PlayerCiv{
         String name;
         String region;
         double food;
@@ -49,7 +48,7 @@ public class Civilization {
         double metal;
         double population;
 
-        CivState(String name, String region){
+        PlayerCiv(String name, String region){
             this.name = name;
             this.region = region;
             this.food = 0; 
@@ -62,15 +61,14 @@ public class Civilization {
 
     public static void main(String[] args) {
         TerminalFormatter.Bordered("WELCOME TO CIV TERMINAL!");
-
-        Map<Integer, String> region = new HashMap<>();
-
-        region.put(1, "Plains");
-        region.put(2, "Hills");
-        region.put(3, "Delta");
-        region.put(4, "Steppes");
-        region.put(5, "Artic");
-        region.put(6, "Jungle");
+        
+        Map<Integer, CivRegions> regionData = new HashMap<>();
+        regionData.put(1, new CivRegions("Plains", 0.5, 1, 1, 0.5, 0.3, 1));
+        regionData.put(2, new CivRegions("Hills", 0.7, 0.7, 1, 0.7, 0.4, 0.8));
+        regionData.put(3, new CivRegions("Delta", 0.7, 1.2, 1, 0.4, 0.25, 1.2));
+        regionData.put(4, new CivRegions("Steppes", 0.7, 0.8, 0.7, 0.5, 0.3, 0.7));
+        regionData.put(5, new CivRegions("Arctic", 0.8, 0.6, 0.7, 0.5, 0.3, 0.5));
+        regionData.put(6, new CivRegions("Jungle", 1, 1, 1, 0.5, 0.3, 0.8));
 
         TerminalFormatter.leftAligned("The world is in its antiquities; tribes roam the earth.");
         TerminalFormatter.leftAligned("In one corner of the earth, people started farming.");
@@ -96,73 +94,20 @@ public class Civilization {
         System.out.println("Your citizens shall be called " + CITIZENS_NAME + "!");
 
         TerminalFormatter.smallBordered("Choose the climate of your civilization (1~6)");
-        for (Map.Entry mapElement : region.entrySet()) {
-            String thisRegion = (String)mapElement.getValue();
-            int thisKey = (int)mapElement.getKey();
-
-            TerminalFormatter.leftAligned(thisKey + ") " + thisRegion);
+        for(Map.Entry<Integer, CivRegions> entry: regionData.entrySet()){
+            TerminalFormatter.leftAligned(entry.getKey() + ") " + entry.getValue().regionName);
         }
+
         TerminalFormatter.printSmallLine();
 
-        Regions SelectedRegion = new Regions();
-
         final int SELECTED_REGION_KEY = sc.nextInt();
-        switch (SELECTED_REGION_KEY) {
-            case 1:
-                SelectedRegion.difficulty = 0.5;
-                SelectedRegion.foodModifier = 1;
-                SelectedRegion.woodModifier = 1;
-                SelectedRegion.stoneModifier = 0.5;
-                SelectedRegion.metalModifier = 0.3;
-                SelectedRegion.populationModifier = 1;
-                break;
-            case 2:
-                SelectedRegion.difficulty = 0.7;
-                SelectedRegion.foodModifier = 0.7;
-                SelectedRegion.woodModifier = 1;
-                SelectedRegion.stoneModifier = 0.7;
-                SelectedRegion.metalModifier = 0.4;
-                SelectedRegion.populationModifier = 0.8;
-                break;
-            case 3:
-                SelectedRegion.difficulty = 0.7;
-                SelectedRegion.foodModifier = 1.2;
-                SelectedRegion.woodModifier = 1;
-                SelectedRegion.stoneModifier = 0.4;
-                SelectedRegion.metalModifier = 0.25;
-                SelectedRegion.populationModifier = 1.2;
-                break;
-            case 4:
-                SelectedRegion.difficulty = 0.7;
-                SelectedRegion.foodModifier = 0.8;
-                SelectedRegion.woodModifier = 0.7;
-                SelectedRegion.stoneModifier = 0.5;
-                SelectedRegion.metalModifier = 0.3;
-                SelectedRegion.populationModifier = 0.7;
-                break;
-            case 5:
-                SelectedRegion.difficulty = 0.8;
-                SelectedRegion.foodModifier = 0.6;
-                SelectedRegion.woodModifier = 0.7;
-                SelectedRegion.stoneModifier = 0.5;
-                SelectedRegion.metalModifier = 0.3;
-                SelectedRegion.populationModifier = 0.5;
-                break;
-            case 6:
-                SelectedRegion.difficulty = 1;
-                SelectedRegion.foodModifier = 1;
-                SelectedRegion.woodModifier = 1;
-                SelectedRegion.stoneModifier = 0.5;
-                SelectedRegion.metalModifier = 0.3;
-                SelectedRegion.populationModifier = 0.8;
-                break;
-        }
 
-        final String SELECTED_REGION = region.get(SELECTED_REGION_KEY);
+        CivRegions selectedRegion = regionData.getOrDefault(SELECTED_REGION_KEY, new CivRegions());
+        
         System.out.print("\033[1A");
-        System.out.println(CIVNAME + " is founded in the " + SELECTED_REGION + ".");
+        System.out.println(CIVNAME + " is founded in the " + selectedRegion.regionName + ".");
 
-        CivState civilization = new CivState(CIVNAME, SELECTED_REGION);
+        PlayerCiv civilization = new PlayerCiv(CIVNAME, selectedRegion.regionName);
         TerminalFormatter.civStats(civilization);
         sc.close();
 

@@ -2,7 +2,7 @@ import java.util.*;
 
 public class TerminalFormatter{
     
-    static final int TERMINAL_LENGTH = 75;
+    static final int TERMINAL_LENGTH = 65;
 
     public static void printLine(){
         for(int i = 0; i < TERMINAL_LENGTH; i++){
@@ -63,7 +63,7 @@ public class TerminalFormatter{
         printLine();
     }
 
-    public static void civStats(Civilization.CivState obj){
+    public static void civStats(Civilization.PlayerCiv obj){
         printLine();
         centered(obj.name);
         centered("Region: " + obj.region);
