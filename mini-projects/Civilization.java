@@ -109,6 +109,13 @@ public class Civilization {
 
         PlayerCiv civilization = new PlayerCiv(CIVNAME, selectedRegion.regionName);
         TerminalFormatter.civStats(civilization);
+
+        TerminalFormatter.PlayerMenu();
+
+
+
+
+
         sc.close();
 
     }

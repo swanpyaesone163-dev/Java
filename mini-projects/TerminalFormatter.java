@@ -75,4 +75,15 @@ public class TerminalFormatter{
         leftAligned("     Metal: " + obj.metal);
         printLine();
     }
+
+    public static void PlayerMenu(){
+        printLine();
+        centered("Which sector will you oversee?");
+        printSmallLine();
+        leftAligned("Governance");
+        leftAligned("Administration");
+        leftAligned("Politics");
+        leftAligned("Social Services");
+        printLine();
+    }
 }
