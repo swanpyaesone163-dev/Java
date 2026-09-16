@@ -1,55 +1,48 @@
 import java.util.*;
 
-public class ExceptionHandling{
+public class ExceptionHandling {
 
     public static void main(String[] args) {
-        int[] array = new int[10];
-        
-        System.out.println("Enter the elements of the array: ");
+        final int SIZE = 10;
+        int[] array = new int[SIZE];
         Scanner sc = new Scanner(System.in);
-        
-        int retries = 0;
-        int max_retries = 3;
 
-        while(retries < max_retries){
-            try{
-                for(int i = 0; i < 10; i++){
+        System.out.println("Enter the elements of the array: ");
+
+        int maxRetries = 3;
+        int attempt = 0;
+        int i = 0;
+        while (i < SIZE && attempt < maxRetries) {
+            try {
+                for (; i < SIZE; i++) {
                     array[i] = sc.nextInt();
                 }
-                break;
-            }
-            catch(InputMismatchException I){
-                if(retries == max_retries - 1){
-                    System.out.println("No more retries, the remaining elements auto-filled with zeros!");
-                    break;
+            } catch (InputMismatchException e) {
+                sc.next(); // discard the bad token
+                attempt++;
+                if (attempt == maxRetries) {
+                    System.out.println("No more retries, remaining elements auto-filled with zeros!");
+                } else {
+                    System.out.println("Your input was not an integer! Please try again!");
                 }
-                System.out.println("your input was not an integer! Please try again!");
-                sc.next();
-                
-                retries++;
             }
         }
 
         System.out.println("Up to which index do you want to print?");
         int n = sc.nextInt();
 
-        if(n >= 0 && n <= 10){
-            for(int i = 0; i < n; i++){
-                System.out.print(array[i] + " ");
-            }
-        }
-        else if(n < 0){
+        if (n < 0) {
             System.out.println("Input index is not accepted for less than 0");
-        }
-        else{
-            for(int i = 0; i < 10; i++){
+        } else {
+            int limit = Math.min(n, SIZE);
+            for (i = 0; i < limit; i++) {
                 System.out.print(array[i] + " ");
             }
-            System.out.println("..end of array");
+            if (n > SIZE) {
+                System.out.println("..end of array");
+            }
         }
 
         sc.close();
     }
-
-
 }
